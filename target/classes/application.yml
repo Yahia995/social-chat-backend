@@ -1,0 +1,58 @@
+spring:
+  application:
+    name: social-chat-api
+  
+  datasource:
+    url: jdbc:mysql://localhost:3306/social_chat_db?useSSL=true&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+    show-sql: false
+  
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+  
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+server:
+  port: 8443
+  address: 0.0.0.0
+  ssl:
+    key-store: classpath:mycertif.p12
+    key-store-password: changeit
+    key-store-type: PKCS12
+    key-alias: mycertif
+
+jwt:
+  secret: your-super-secret-jwt-key-change-this-in-production-at-least-32-characters-long
+  expiration: 86400000
+  refresh-expiration: 604800000
+
+token:
+  cleanup:
+    interval: 21600000  # 6 hours in milliseconds (6 * 60 * 60 * 1000)
+
+file:
+  storage:
+    upload-dir: ./uploads
+    max-file-size: 10485760
+    allowed-mime-types: image/jpeg,image/png,image/gif,image/webp
+
+logging:
+  level:
+    root: INFO
+    com.socialchat: DEBUG
+    org.springframework.security: DEBUG
